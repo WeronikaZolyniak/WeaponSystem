@@ -22,7 +22,8 @@ AFirstPersonPlayer::AFirstPersonPlayer()
 void AFirstPersonPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CrosshairWidget = CreateWidget<UCrosshair>(GetWorld(), CrosshairClass);
+
 }
 
 // Called every frame
@@ -38,5 +39,24 @@ void AFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(TEXT("Look Up"), this, &AFirstPersonPlayer::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AFirstPersonPlayer::AddControllerYawInput);
+	PlayerInputComponent->BindAction(TEXT("Aim"), IE_Pressed, this, &AFirstPersonPlayer::StartAiming);
+	PlayerInputComponent->BindAction(TEXT("Aim"), IE_Released, this, &AFirstPersonPlayer::EndAiming);
 }
 
+void AFirstPersonPlayer::StartAiming()
+{
+	if (!CrosshairWidget->GetIsVisible())
+	{
+		Camera->SetFieldOfView(Camera->FieldOfView * 0.8);
+		CrosshairWidget->AddToViewport();
+	}
+}
+
+void AFirstPersonPlayer::EndAiming()
+{
+	if (CrosshairWidget->GetIsVisible())
+	{
+		Camera->SetFieldOfView(Camera->FieldOfView / 0.8);
+		CrosshairWidget->RemoveFromViewport();
+	}
+}

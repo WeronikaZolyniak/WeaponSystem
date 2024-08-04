@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "Crosshair.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "FirstPersonPlayer.generated.h"
 
@@ -28,9 +30,17 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void StartAiming();
+	void EndAiming();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	 UCameraComponent* Camera;
+	UCameraComponent* Camera;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UCrosshair> CrosshairClass;
+
+	UCrosshair* CrosshairWidget;
 };
