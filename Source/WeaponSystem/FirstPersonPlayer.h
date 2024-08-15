@@ -7,6 +7,9 @@
 #include "Camera/CameraComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "Crosshair.h"
+#include "WeaponBase.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Components/ChildActorComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "FirstPersonPlayer.generated.h"
 
@@ -41,6 +44,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UCrosshair> CrosshairClass;
-
 	UCrosshair* CrosshairWidget;
+
+
+
+
 };
