@@ -15,7 +15,9 @@ UCLASS()
 class WEAPONSYSTEM_API UWeaponDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
-	
+
+public:
+
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMesh* Mesh;
 

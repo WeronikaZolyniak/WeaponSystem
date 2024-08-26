@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/StaticMesh.h"
+#include "WeaponDataAsset.h"
 #include "WeaponBase.generated.h"
 
 UCLASS()
@@ -24,7 +25,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UWeaponDataAsset> WeaponDataAsset;
 
+	UPROPERTY()
+	UStaticMeshComponent* Mesh;
 	
 
 };
