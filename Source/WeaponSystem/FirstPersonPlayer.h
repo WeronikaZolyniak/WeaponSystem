@@ -11,6 +11,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Components/ChildActorComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "WeaponDataAsset.h"
 #include "FirstPersonPlayer.generated.h"
 
 UCLASS()
@@ -46,7 +47,9 @@ public:
 	TSubclassOf<class UCrosshair> CrosshairClass;
 	UCrosshair* CrosshairWidget;
 
+	AWeaponBase* WeaponActor;
 
-
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UWeaponDataAsset> WeaponDataAsset;
 
 };

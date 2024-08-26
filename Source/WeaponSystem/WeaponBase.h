@@ -30,6 +30,8 @@ public:
 
 	UPROPERTY()
 	UStaticMeshComponent* Mesh;
+
+	void SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset);
 	
 
 };

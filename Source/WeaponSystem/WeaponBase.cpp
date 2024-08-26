@@ -14,8 +14,7 @@ AWeaponBase::AWeaponBase()
 // Called when the game starts or when spawned
 void AWeaponBase::BeginPlay()
 {
-	Super::BeginPlay();
-	Mesh->SetStaticMesh(WeaponDataAsset->Mesh);
+	Super::BeginPlay();	
 }
 
 // Called every frame
@@ -23,5 +22,11 @@ void AWeaponBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AWeaponBase::SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset)
+{
+	WeaponDataAsset = DataAsset;
+	Mesh->SetStaticMesh(WeaponDataAsset->Mesh);
 }
 

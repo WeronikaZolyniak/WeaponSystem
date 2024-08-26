@@ -24,6 +24,12 @@ void AFirstPersonPlayer::BeginPlay()
 	Super::BeginPlay();
 	CrosshairWidget = CreateWidget<UCrosshair>(GetWorld(), CrosshairClass);
 
+	FActorSpawnParameters SpawnParameters;
+	WeaponActor = GetWorld()->SpawnActor<AWeaponBase>(AWeaponBase::StaticClass(), GetActorLocation(), GetActorRotation(), SpawnParameters);
+	if (WeaponDataAsset != nullptr)
+	{
+		WeaponActor->SetWeaponDataAsset(WeaponDataAsset);
+	}
 }
 
 // Called every frame
