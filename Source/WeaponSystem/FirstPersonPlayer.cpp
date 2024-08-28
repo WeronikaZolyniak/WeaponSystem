@@ -16,6 +16,9 @@ AFirstPersonPlayer::AFirstPersonPlayer()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->AttachToComponent(SpringArm, FAttachmentTransformRules::KeepRelativeTransform);
+
+	WeaponSocket = CreateDefaultSubobject<USceneComponent>(FName("WeaponSocket"));
+	WeaponSocket->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -25,11 +28,14 @@ void AFirstPersonPlayer::BeginPlay()
 	CrosshairWidget = CreateWidget<UCrosshair>(GetWorld(), CrosshairClass);
 
 	FActorSpawnParameters SpawnParameters;
-	WeaponActor = GetWorld()->SpawnActor<AWeaponBase>(AWeaponBase::StaticClass(), GetActorLocation(), GetActorRotation(), SpawnParameters);
+	WeaponActor = GetWorld()->SpawnActor<AWeaponBase>(AWeaponBase::StaticClass(), WeaponSocket->GetComponentLocation(), WeaponSocket->GetComponentRotation(), SpawnParameters);
+	if (WeaponActor == nullptr) return;
 	if (WeaponDataAsset != nullptr)
 	{
 		WeaponActor->SetWeaponDataAsset(WeaponDataAsset);
 	}
+	
+	WeaponActor->AttachToComponent(WeaponSocket, FAttachmentTransformRules::SnapToTargetIncludingScale);
 }
 
 // Called every frame

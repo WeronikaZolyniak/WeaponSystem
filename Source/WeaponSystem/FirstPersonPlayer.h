@@ -12,6 +12,7 @@
 #include "Components/ChildActorComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "WeaponDataAsset.h"
+#include "Components/SceneComponent.h"
 #include "FirstPersonPlayer.generated.h"
 
 UCLASS()
@@ -51,5 +52,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UWeaponDataAsset> WeaponDataAsset;
+
+	UPROPERTY(EditAnywhere)
+	USceneComponent* WeaponSocket;
 
 };
