@@ -36,5 +36,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	int ReloadTimeinSec;
 
+	UPROPERTY(EditDefaultsOnly)
+	int MagazineAmmoCount;
+
 
 };

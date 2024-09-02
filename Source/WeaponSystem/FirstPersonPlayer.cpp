@@ -53,6 +53,7 @@ void AFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AFirstPersonPlayer::AddControllerYawInput);
 	PlayerInputComponent->BindAction(TEXT("Aim"), IE_Pressed, this, &AFirstPersonPlayer::StartAiming);
 	PlayerInputComponent->BindAction(TEXT("Aim"), IE_Released, this, &AFirstPersonPlayer::EndAiming);
+	PlayerInputComponent->BindAction(TEXT("Shoot"), IE_Pressed, this, &AFirstPersonPlayer::Shoot);
 }
 
 void AFirstPersonPlayer::StartAiming()
@@ -71,4 +72,9 @@ void AFirstPersonPlayer::EndAiming()
 		Camera->SetFieldOfView(Camera->FieldOfView / 0.8);
 		CrosshairWidget->RemoveFromViewport();
 	}
+}
+
+void AFirstPersonPlayer::Shoot()
+{
+	WeaponActor->Shoot();
 }

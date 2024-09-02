@@ -29,5 +29,15 @@ void AWeaponBase::SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset)
 {
 	WeaponDataAsset = DataAsset;
 	Mesh->SetStaticMesh(WeaponDataAsset->Mesh);
+	CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
+}
+
+void AWeaponBase::Shoot()
+{
+	if (CurrentAmmo > 0)
+	{
+		CurrentAmmo--;
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->GunshotSound, GetActorLocation());
+	}
 }
 

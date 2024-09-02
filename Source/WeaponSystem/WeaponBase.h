@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/StaticMesh.h"
 #include "WeaponDataAsset.h"
+#include "Kismet/GameplayStatics.h"
 #include "WeaponBase.generated.h"
 
 UCLASS()
@@ -33,5 +34,7 @@ public:
 
 	void SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset);
 	
+	int CurrentAmmo;
 
+	void Shoot();
 };

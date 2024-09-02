@@ -37,6 +37,7 @@ public:
 
 	void StartAiming();
 	void EndAiming();
+	void Shoot();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UCameraComponent* Camera;
