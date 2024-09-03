@@ -58,6 +58,7 @@ void AFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	PlayerInputComponent->BindAction(TEXT("Aim"), IE_Pressed, this, &AFirstPersonPlayer::StartAiming);
 	PlayerInputComponent->BindAction(TEXT("Aim"), IE_Released, this, &AFirstPersonPlayer::EndAiming);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), IE_Pressed, this, &AFirstPersonPlayer::Shoot);
+	PlayerInputComponent->BindAction(TEXT("Reload"), IE_Pressed, this, &AFirstPersonPlayer::Reload);
 }
 
 void AFirstPersonPlayer::StartAiming()
@@ -81,4 +82,9 @@ void AFirstPersonPlayer::EndAiming()
 void AFirstPersonPlayer::Shoot()
 {
 	WeaponActor->Shoot();
+}
+
+void AFirstPersonPlayer::Reload()
+{
+	WeaponActor->Reload();
 }

@@ -40,4 +40,5 @@ public:
 	UAmmoWidget* AmmoWidget;
 
 	void Shoot();
+	void Reload();
 };

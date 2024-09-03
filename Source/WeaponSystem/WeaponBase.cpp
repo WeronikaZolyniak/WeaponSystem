@@ -49,3 +49,10 @@ void AWeaponBase::Shoot()
 	}
 }
 
+void AWeaponBase::Reload()
+{
+	if (CurrentAmmo == WeaponDataAsset->MagazineAmmoCount) return;
+	CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
+	AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
+}
+
