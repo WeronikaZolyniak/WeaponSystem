@@ -27,12 +27,16 @@ void AFirstPersonPlayer::BeginPlay()
 	Super::BeginPlay();
 	CrosshairWidget = CreateWidget<UCrosshair>(GetWorld(), CrosshairClass);
 
+	AmmoWidget = CreateWidget<UAmmoWidget>(GetWorld(), AmmoWidgetClass);
+	AmmoWidget->AddToViewport();
+
 	FActorSpawnParameters SpawnParameters;
 	WeaponActor = GetWorld()->SpawnActor<AWeaponBase>(AWeaponBase::StaticClass(), WeaponSocket->GetComponentLocation(), WeaponSocket->GetComponentRotation(), SpawnParameters);
 	if (WeaponActor == nullptr) return;
 	if (WeaponDataAsset != nullptr)
 	{
 		WeaponActor->SetWeaponDataAsset(WeaponDataAsset);
+		WeaponActor->SetAmmoWidget(AmmoWidget);
 	}
 	
 	WeaponActor->AttachToComponent(WeaponSocket, FAttachmentTransformRules::SnapToTargetIncludingScale);

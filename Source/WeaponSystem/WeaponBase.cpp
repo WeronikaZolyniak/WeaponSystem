@@ -15,7 +15,7 @@ AWeaponBase::AWeaponBase()
 // Called when the game starts or when spawned
 void AWeaponBase::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
 }
 
 // Called every frame
@@ -32,12 +32,20 @@ void AWeaponBase::SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset)
 	CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
 }
 
+void AWeaponBase::SetAmmoWidget(UAmmoWidget* AmmoWidgetToSet)
+{
+	AmmoWidget = AmmoWidgetToSet;
+	AmmoWidget->UpdateMagazineAmmoCountText(WeaponDataAsset->MagazineAmmoCount);
+	AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
+}
+
 void AWeaponBase::Shoot()
 {
 	if (CurrentAmmo > 0)
 	{
 		CurrentAmmo--;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->GunshotSound, GetActorLocation());
+		AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
 	}
 }
 

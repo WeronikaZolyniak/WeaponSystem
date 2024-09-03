@@ -12,6 +12,7 @@
 #include "Components/ChildActorComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "WeaponDataAsset.h"
+#include "AmmoWidget.h"
 #include "Components/SceneComponent.h"
 #include "FirstPersonPlayer.generated.h"
 
@@ -48,6 +49,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UCrosshair> CrosshairClass;
 	UCrosshair* CrosshairWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UAmmoWidget> AmmoWidgetClass;
+	UAmmoWidget* AmmoWidget;
 
 	AWeaponBase* WeaponActor;
 

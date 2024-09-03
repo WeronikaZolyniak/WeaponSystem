@@ -7,6 +7,7 @@
 #include "Engine/StaticMesh.h"
 #include "WeaponDataAsset.h"
 #include "Kismet/GameplayStatics.h"
+#include "AmmoWidget.h"
 #include "WeaponBase.generated.h"
 
 UCLASS()
@@ -33,8 +34,10 @@ public:
 	UStaticMeshComponent* Mesh;
 
 	void SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset);
+	void SetAmmoWidget(UAmmoWidget* AmmoWidgetToSet);
 	
 	int CurrentAmmo;
+	UAmmoWidget* AmmoWidget;
 
 	void Shoot();
 };
