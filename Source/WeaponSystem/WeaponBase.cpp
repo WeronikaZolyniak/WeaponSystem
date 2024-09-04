@@ -52,7 +52,13 @@ void AWeaponBase::Shoot()
 void AWeaponBase::Reload()
 {
 	if (CurrentAmmo == WeaponDataAsset->MagazineAmmoCount) return;
-	CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
-	AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->ReloadSound, GetActorLocation());
+
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+	{
+			CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
+			AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
+	}, WeaponDataAsset->ReloadTimeinSec, false);
 }
 
