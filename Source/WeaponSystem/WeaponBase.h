@@ -7,8 +7,9 @@
 #include "Engine/StaticMesh.h"
 #include "WeaponDataAsset.h"
 #include "Kismet/GameplayStatics.h"
-#include "AmmoWidget.h"
 #include "WeaponBase.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAmmoCountChangedDelegate, int, CurrentAmmo);
 
 UCLASS()
 class WEAPONSYSTEM_API AWeaponBase : public AActor
@@ -27,6 +28,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	FOnAmmoCountChangedDelegate BulletCountChangedDelegate;
+
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UWeaponDataAsset> WeaponDataAsset;
 
@@ -34,10 +37,8 @@ public:
 	UStaticMeshComponent* Mesh;
 
 	void SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset);
-	void SetAmmoWidget(UAmmoWidget* AmmoWidgetToSet);
 	
 	int CurrentAmmo;
-	UAmmoWidget* AmmoWidget;
 
 	void Shoot();
 	void Reload();

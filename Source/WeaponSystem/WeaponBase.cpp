@@ -32,20 +32,14 @@ void AWeaponBase::SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset)
 	CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
 }
 
-void AWeaponBase::SetAmmoWidget(UAmmoWidget* AmmoWidgetToSet)
-{
-	AmmoWidget = AmmoWidgetToSet;
-	AmmoWidget->UpdateMagazineAmmoCountText(WeaponDataAsset->MagazineAmmoCount);
-	AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
-}
-
 void AWeaponBase::Shoot()
 {
 	if (CurrentAmmo > 0)
 	{
 		CurrentAmmo--;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->GunshotSound, GetActorLocation());
-		AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
+		//AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
+		BulletCountChangedDelegate.Broadcast(CurrentAmmo);
 	}
 }
 
@@ -58,7 +52,7 @@ void AWeaponBase::Reload()
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 	{
 			CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
-			AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
+			BulletCountChangedDelegate.Broadcast(WeaponDataAsset->MagazineAmmoCount);
 	}, WeaponDataAsset->ReloadTimeinSec, false);
 }
 

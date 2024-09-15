@@ -36,7 +36,7 @@ void AFirstPersonPlayer::BeginPlay()
 	if (WeaponDataAsset != nullptr)
 	{
 		WeaponActor->SetWeaponDataAsset(WeaponDataAsset);
-		WeaponActor->SetAmmoWidget(AmmoWidget);
+		AmmoWidget->SetOnBulletCountChangedDelegate(WeaponActor);
 	}
 	
 	WeaponActor->AttachToComponent(WeaponSocket, FAttachmentTransformRules::SnapToTargetIncludingScale);

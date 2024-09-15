@@ -20,3 +20,10 @@ void UAmmoWidget::UpdateCurrentAmmoText(int CurrentAmmo)
 		CurrentAmmoText->SetText(FText::FromString(Text));
 	}
 }
+
+void UAmmoWidget::SetOnBulletCountChangedDelegate(AWeaponBase* WeaponBase)
+{
+	UpdateCurrentAmmoText(WeaponBase->CurrentAmmo);
+	UpdateMagazineAmmoCountText(WeaponBase->WeaponDataAsset->MagazineAmmoCount);
+	WeaponBase->BulletCountChangedDelegate.AddDynamic(this, &UAmmoWidget::UpdateCurrentAmmoText);
+}
