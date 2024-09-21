@@ -38,7 +38,6 @@ void AWeaponBase::Shoot()
 	{
 		CurrentAmmo--;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->GunshotSound, GetActorLocation());
-		//AmmoWidget->UpdateCurrentAmmoText(CurrentAmmo);
 		BulletCountChangedDelegate.Broadcast(CurrentAmmo);
 	}
 }

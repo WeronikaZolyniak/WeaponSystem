@@ -63,18 +63,22 @@ void AFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 void AFirstPersonPlayer::StartAiming()
 {
-	if (!CrosshairWidget->GetIsVisible())
+	if (WeaponDataAsset->Zoom == 1) return;
+
+	if (!CrosshairWidget->GetIsVisible() && WeaponActor != nullptr)
 	{
-		Camera->SetFieldOfView(Camera->FieldOfView * 0.8);
+		Camera->SetFieldOfView(Camera->FieldOfView *(1- WeaponDataAsset->Zoom));
 		CrosshairWidget->AddToViewport();
 	}
 }
 
 void AFirstPersonPlayer::EndAiming()
 {
+	if (WeaponDataAsset->Zoom == 1) return;
+
 	if (CrosshairWidget->GetIsVisible())
 	{
-		Camera->SetFieldOfView(Camera->FieldOfView / 0.8);
+		Camera->SetFieldOfView(Camera->FieldOfView /(1 - WeaponDataAsset->Zoom));
 		CrosshairWidget->RemoveFromViewport();
 	}
 }

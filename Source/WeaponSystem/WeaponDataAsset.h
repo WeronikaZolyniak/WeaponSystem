@@ -27,8 +27,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USoundWave* ReloadSound;
 
+	//range from 0.1 to 0.99
 	UPROPERTY(EditDefaultsOnly)
-	int Zoom;
+	float Zoom;
 
 	UPROPERTY(EditDefaultsOnly)
 	int Range;
