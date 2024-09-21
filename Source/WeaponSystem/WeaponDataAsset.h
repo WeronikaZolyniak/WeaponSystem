@@ -32,7 +32,7 @@ public:
 	float Zoom;
 
 	UPROPERTY(EditDefaultsOnly)
-	int Range;
+	int BulletSpeedInMetresPerSecond;
 
 	UPROPERTY(EditDefaultsOnly)
 	int ReloadTimeinSec;

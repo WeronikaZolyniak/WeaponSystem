@@ -2,6 +2,8 @@
 
 
 #include "WeaponBase.h"
+#include "Projectile.h"
+#include "Engine/StaticMeshSocket.h"
 
 // Sets default values
 AWeaponBase::AWeaponBase()
@@ -39,6 +41,8 @@ void AWeaponBase::Shoot()
 		CurrentAmmo--;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->GunshotSound, GetActorLocation());
 		BulletCountChangedDelegate.Broadcast(CurrentAmmo);
+		FActorSpawnParameters SpawnParameters;
+		GetWorld()->SpawnActor<AProjectile>(AProjectile::StaticClass(), Mesh->GetSocketTransform(FName("Bullet")), SpawnParameters);
 	}
 }
 
