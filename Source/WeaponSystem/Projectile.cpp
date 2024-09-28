@@ -2,6 +2,7 @@
 
 
 #include "Projectile.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AProjectile::AProjectile()
@@ -16,6 +17,7 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	ProjectileStartPosition = GetActorLocation();
 	
 }
 
@@ -23,6 +25,7 @@ void AProjectile::BeginPlay()
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	AddActorLocalTransform(FTransform(FRotator(0, 0, 0), FVector(0, SpeedInMetresPerSecond * DeltaTime, -1 * (GetWorld()->GetGravityZ() / 2) * DeltaTime * DeltaTime), FVector(0, 0, 0)));
+	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorLocation(), FColor::Red);
 }
 

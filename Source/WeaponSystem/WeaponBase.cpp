@@ -12,6 +12,7 @@ AWeaponBase::AWeaponBase()
 	PrimaryActorTick.bCanEverTick = true;
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mesh"));
 	RootComponent = Mesh;
+	Mesh->SetCollisionResponseToAllChannels(ECR_Ignore);
 }
 
 // Called when the game starts or when spawned
@@ -42,7 +43,8 @@ void AWeaponBase::Shoot()
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->GunshotSound, GetActorLocation());
 		BulletCountChangedDelegate.Broadcast(CurrentAmmo);
 		FActorSpawnParameters SpawnParameters;
-		GetWorld()->SpawnActor<AProjectile>(AProjectile::StaticClass(), Mesh->GetSocketTransform(FName("Bullet")), SpawnParameters);
+		AProjectile* Bullet = GetWorld()->SpawnActor<AProjectile>(AProjectile::StaticClass(), Mesh->GetSocketTransform(FName("Bullet")), SpawnParameters);
+		Bullet->SpeedInMetresPerSecond = WeaponDataAsset->BulletSpeedInMetresPerSecond;
 	}
 }
 

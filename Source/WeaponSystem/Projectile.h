@@ -26,4 +26,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UBoxComponent* Collision;
+	int SpeedInMetresPerSecond = 0;
+
+	FVector ProjectileStartPosition;
 };
