@@ -40,6 +40,6 @@ public:
 	
 	int CurrentAmmo;
 
-	void Shoot();
+	void Shoot(float PlayerPitchRotation);
 	void Reload();
 };

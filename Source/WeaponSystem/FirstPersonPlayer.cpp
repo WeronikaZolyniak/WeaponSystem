@@ -85,7 +85,7 @@ void AFirstPersonPlayer::EndAiming()
 
 void AFirstPersonPlayer::Shoot()
 {
-	WeaponActor->Shoot();
+	WeaponActor->Shoot(GetActorRotation().Pitch);
 }
 
 void AFirstPersonPlayer::Reload()

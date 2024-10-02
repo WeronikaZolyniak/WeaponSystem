@@ -35,7 +35,7 @@ void AWeaponBase::SetWeaponDataAsset(TObjectPtr<UWeaponDataAsset> DataAsset)
 	CurrentAmmo = WeaponDataAsset->MagazineAmmoCount;
 }
 
-void AWeaponBase::Shoot()
+void AWeaponBase::Shoot(float PlayerPitchRotation)
 {
 	if (CurrentAmmo > 0)
 	{
@@ -44,7 +44,11 @@ void AWeaponBase::Shoot()
 		BulletCountChangedDelegate.Broadcast(CurrentAmmo);
 		FActorSpawnParameters SpawnParameters;
 		AProjectile* Bullet = GetWorld()->SpawnActor<AProjectile>(AProjectile::StaticClass(), Mesh->GetSocketTransform(FName("Bullet")), SpawnParameters);
-		Bullet->SpeedInMetresPerSecond = WeaponDataAsset->BulletSpeedInMetresPerSecond;
+		//Bullet->SetActorRotation(GetActorRotation());
+		//Bullet->SetActorRotation(FRotator(PlayerPitchRotation, Bullet->GetActorRotation().Yaw, Bullet->GetActorRotation().Roll));
+		//Bullet->SetActorRotation(FRotator(0, 0, 0));
+		Bullet->AddActorLocalRotation(FRotator(PlayerPitchRotation, 0, 0));
+		Bullet->SetSpeedInMetresPerSecond(WeaponDataAsset->BulletSpeedInMetresPerSecond);
 	}
 }
 

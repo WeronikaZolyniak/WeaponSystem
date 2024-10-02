@@ -25,8 +25,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SetSpeedInMetresPerSecond(int SpeedInMetresPerSecondToSet);
+
 	UBoxComponent* Collision;
+
 	int SpeedInMetresPerSecond = 0;
 
 	FVector ProjectileStartPosition;
+
+	FVector Velocity;
+	FVector Gravity;
+
 };

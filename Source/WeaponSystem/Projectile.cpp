@@ -18,14 +18,27 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	ProjectileStartPosition = GetActorLocation();
-	
+	Gravity = FVector(0, 0, GetWorld()->GetGravityZ());
 }
 
 // Called every frame
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	AddActorLocalTransform(FTransform(FRotator(0, 0, 0), FVector(0, SpeedInMetresPerSecond * DeltaTime, -1 * (GetWorld()->GetGravityZ() / 2) * DeltaTime * DeltaTime), FVector(0, 0, 0)));
-	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorLocation(), FColor::Red);
+	ProjectileStartPosition = GetActorLocation();
+
+	if (SpeedInMetresPerSecond != 0)
+	{
+		Velocity += Gravity * DeltaTime * 0.001;
+		AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)));
+	}
+
+	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorLocation(), FColor::Red, true);
+}
+
+void AProjectile::SetSpeedInMetresPerSecond(int SpeedInMetresPerSecondToSet)
+{
+	SpeedInMetresPerSecond = SpeedInMetresPerSecondToSet;
+	Velocity = FVector(0, SpeedInMetresPerSecond,0);
 }
 
