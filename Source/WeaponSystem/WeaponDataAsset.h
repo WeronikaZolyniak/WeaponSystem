@@ -40,5 +40,6 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	int MagazineAmmoCount;
 
-
+	UPROPERTY(EditDefaultsOnly)
+	UMaterialInterface* BulletHoleMaterial;
 };

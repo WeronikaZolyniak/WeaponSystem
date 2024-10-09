@@ -43,12 +43,12 @@ void AWeaponBase::Shoot(float PlayerPitchRotation)
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), WeaponDataAsset->GunshotSound, GetActorLocation());
 		BulletCountChangedDelegate.Broadcast(CurrentAmmo);
 		FActorSpawnParameters SpawnParameters;
-		AProjectile* Bullet = GetWorld()->SpawnActor<AProjectile>(AProjectile::StaticClass(), Mesh->GetSocketTransform(FName("Bullet")), SpawnParameters);
-		//Bullet->SetActorRotation(GetActorRotation());
-		//Bullet->SetActorRotation(FRotator(PlayerPitchRotation, Bullet->GetActorRotation().Yaw, Bullet->GetActorRotation().Roll));
-		//Bullet->SetActorRotation(FRotator(0, 0, 0));
+		FTransform BulletTransform = Mesh->GetSocketTransform(FName("Bullet"));
+		BulletTransform.SetScale3D(FVector(1, 1, 1));
+		AProjectile* Bullet = GetWorld()->SpawnActor<AProjectile>(AProjectile::StaticClass(), BulletTransform, SpawnParameters);
 		Bullet->AddActorLocalRotation(FRotator(PlayerPitchRotation, 0, 0));
 		Bullet->SetSpeedInMetresPerSecond(WeaponDataAsset->BulletSpeedInMetresPerSecond);
+		Bullet->BulletHoleMaterial = WeaponDataAsset->BulletHoleMaterial;
 	}
 }
 

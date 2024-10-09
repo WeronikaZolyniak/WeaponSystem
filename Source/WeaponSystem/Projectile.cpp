@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "DrawDebugHelpers.h"
 
+
 // Sets default values
 AProjectile::AProjectile()
 {
@@ -11,14 +12,24 @@ AProjectile::AProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 	Collision = CreateDefaultSubobject<UBoxComponent>(FName("Collision"));
 	RootComponent = Collision;
+	Collision->SetBoxExtent(FVector(1,1,1));
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	Collision->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnBoxBeginOverlap);
 	ProjectileStartPosition = GetActorLocation();
 	Gravity = FVector(0, 0, GetWorld()->GetGravityZ());
+}
+
+void AProjectile::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	FVector HitLocation = GetActorLocation();
+	UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(30, 4, 4), HitLocation);
+
+	Destroy();
 }
 
 // Called every frame
