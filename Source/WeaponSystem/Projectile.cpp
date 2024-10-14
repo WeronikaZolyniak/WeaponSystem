@@ -12,23 +12,33 @@ AProjectile::AProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 	Collision = CreateDefaultSubobject<UBoxComponent>(FName("Collision"));
 	RootComponent = Collision;
-	Collision->SetBoxExtent(FVector(1,1,1));
+	Collision->SetBoxExtent(FVector(5,5,5));
+	Collision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+	Collision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
+	Collision->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	Collision->SetNotifyRigidBodyCollision(true);
+	Collision->SetGenerateOverlapEvents(false);
+	Collision->SetSimulatePhysics(true);
+	Collision->SetEnableGravity(false);
+	Collision->SetAngularDamping(0);
+	Collision->SetLinearDamping(0);
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	Collision->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnBoxBeginOverlap);
+	Collision->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorForwardVector(), FColor::Cyan, true);
 	ProjectileStartPosition = GetActorLocation();
 	Gravity = FVector(0, 0, GetWorld()->GetGravityZ());
 }
 
-void AProjectile::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	FVector HitLocation = GetActorLocation();
-	UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(30, 4, 4), HitLocation);
-
+	UE_LOG(LogTemp, Warning, TEXT("Hit"));
+	UE_LOG(LogTemp, Warning, TEXT("Hit: %f %f %f"), Hit.Location.X, Hit.Location.Y, Hit.Location.Z);
+	UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(10, 4, 4), Hit.Location);
 	Destroy();
 }
 
