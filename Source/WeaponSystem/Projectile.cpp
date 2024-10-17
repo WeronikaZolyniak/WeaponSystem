@@ -47,12 +47,18 @@ void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	ProjectileStartPosition = GetActorLocation();
+	FHitResult Hit;
 
 	if (SpeedInMetresPerSecond != 0)
 	{
 		Velocity += Gravity * DeltaTime * 0.001;
-		AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)));
+		AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)), true, &Hit);
 	}
+	/*if (Hit.bBlockingHit)
+	{
+		UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(10, 4, 4), Hit.Location);
+		Destroy();
+	}*/
 
 	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorLocation(), FColor::Red, true);
 }

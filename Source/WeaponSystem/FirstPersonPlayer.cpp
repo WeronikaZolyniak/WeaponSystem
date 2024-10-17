@@ -30,6 +30,10 @@ void AFirstPersonPlayer::BeginPlay()
 	AmmoWidget = CreateWidget<UAmmoWidget>(GetWorld(), AmmoWidgetClass);
 	AmmoWidget->AddToViewport();
 
+	PointsWidget = CreateWidget<UPointsWidget>(GetWorld(), PointsWidgetClass);
+	PointsWidget->AddToViewport();
+	PointsWidget->SetPointsText(Points);
+
 	FActorSpawnParameters SpawnParameters;
 	WeaponActor = GetWorld()->SpawnActor<AWeaponBase>(AWeaponBase::StaticClass(), WeaponSocket->GetComponentLocation(), WeaponSocket->GetComponentRotation(), SpawnParameters);
 	if (WeaponActor == nullptr) return;

@@ -41,6 +41,8 @@ public:
 	void Shoot();
 	void Reload();
 
+	int Points = 0;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UCameraComponent* Camera;
 
@@ -54,6 +56,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UAmmoWidget> AmmoWidgetClass;
 	UAmmoWidget* AmmoWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UPointsWidget> PointsWidgetClass;
+	UPointsWidget* PointsWidget;
 
 	AWeaponBase* WeaponActor;
 

@@ -7,6 +7,7 @@
 #include "Engine/StaticMesh.h"
 #include "WeaponDataAsset.h"
 #include "Kismet/GameplayStatics.h"
+#include "PointsWidget.h"
 #include "WeaponBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAmmoCountChangedDelegate, int, CurrentAmmo);

@@ -43,4 +43,6 @@ public:
 	FVector Velocity;
 	FVector Gravity;
 
+	FHitResult* HitResult;
+
 };
