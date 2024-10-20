@@ -6,6 +6,8 @@
 #include "Engine/DataAsset.h"
 #include "Engine/StaticMesh.h"
 #include "Sound/SoundWave.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "WeaponDataAsset.generated.h"
 
 /**
@@ -42,4 +44,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	UMaterialInterface* BulletHoleMaterial;
+
+	UPROPERTY(EditDefaultsOnly)
+	UNiagaraSystem* BulletHitParticle;
 };

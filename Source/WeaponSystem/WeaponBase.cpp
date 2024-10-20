@@ -52,6 +52,7 @@ void AWeaponBase::Shoot(float PlayerPitchRotation)
 		Bullet->AddActorLocalRotation(FRotator(PlayerPitchRotation, 0, 0));
 		Bullet->SetSpeedInMetresPerSecond(WeaponDataAsset->BulletSpeedInMetresPerSecond);
 		Bullet->BulletHoleMaterial = WeaponDataAsset->BulletHoleMaterial;
+		Bullet->BulletHitParticle = WeaponDataAsset->BulletHitParticle;
 	}
 }
 

@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "Projectile.generated.h"
 
 UCLASS()
@@ -35,6 +37,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	UMaterialInterface* BulletHoleMaterial;
+
+	UNiagaraSystem* BulletHitParticle;
 
 	int SpeedInMetresPerSecond = 0;
 

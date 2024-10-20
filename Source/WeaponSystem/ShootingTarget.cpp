@@ -20,6 +20,7 @@ AShootingTarget::AShootingTarget()
 	Collision->SetEnableGravity(false);
 	Collision->SetAngularDamping(0);
 	Collision->SetLinearDamping(0);
+	Collision->SetMobility(EComponentMobility::Static);
 }
 
 // Called when the game starts or when spawned
