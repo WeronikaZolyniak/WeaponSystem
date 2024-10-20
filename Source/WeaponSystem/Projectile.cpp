@@ -3,6 +3,7 @@
 
 #include "Projectile.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 // Sets default values
@@ -38,7 +39,10 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hit"));
 	UE_LOG(LogTemp, Warning, TEXT("Hit: %f %f %f"), Hit.Location.X, Hit.Location.Y, Hit.Location.Z);
-	UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(10, 4, 4), Hit.Location);
+	FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(Hit.Normal);
+	UE_LOG(LogTemp, Warning, TEXT("Rotation: %f %f %f"), DecalRotation.Pitch, DecalRotation.Yaw, DecalRotation.Roll);
+	UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(100, 4, 4), Hit.Location, DecalRotation);
+
 	if (BulletHitParticle)
 	{
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), BulletHitParticle, Hit.Location);
