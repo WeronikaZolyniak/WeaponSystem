@@ -2,6 +2,7 @@
 
 
 #include "ShootingTarget.h"
+#include "FirstPersonPlayer.h"
 
 // Sets default values
 AShootingTarget::AShootingTarget()
@@ -27,7 +28,6 @@ AShootingTarget::AShootingTarget()
 void AShootingTarget::BeginPlay()
 {
 	Super::BeginPlay();
-	Collision->OnComponentHit.AddDynamic(this, &AShootingTarget::OnHit);
 }
 
 // Called every frame
@@ -37,13 +37,14 @@ void AShootingTarget::Tick(float DeltaTime)
 
 }
 
-void AShootingTarget::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void AShootingTarget::TargetGotHit()
 {
-	TargetGotHit(Points, GetWorld());
-}
+	AFirstPersonPlayer* Player = Cast<AFirstPersonPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
-void AShootingTarget::TargetGotHit(int PointsToAdd, UObject* WorldRef)
-{
-	ITargetInterface::TargetGotHit(PointsToAdd, WorldRef);
+	if (Player)
+	{
+		Player->Points += Points;
+		Player->PointsWidget->SetPointsText(Player->Points);
+	}
 }
 

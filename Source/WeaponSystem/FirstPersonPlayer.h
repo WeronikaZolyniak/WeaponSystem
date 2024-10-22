@@ -66,7 +66,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UWeaponDataAsset> WeaponDataAsset;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* WeaponSocket;
 
 };

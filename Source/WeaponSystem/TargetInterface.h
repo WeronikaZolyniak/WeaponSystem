@@ -21,5 +21,5 @@ class WEAPONSYSTEM_API ITargetInterface
 	GENERATED_BODY()
 
 public:
-	virtual void TargetGotHit(int PointsToAdd, UObject* WorldRef);
+	virtual void TargetGotHit();
 };

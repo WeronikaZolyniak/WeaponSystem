@@ -3,6 +3,7 @@
 
 #include "Projectile.h"
 #include "DrawDebugHelpers.h"
+#include "TargetInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -41,7 +42,16 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	UE_LOG(LogTemp, Warning, TEXT("Hit: %f %f %f"), Hit.Location.X, Hit.Location.Y, Hit.Location.Z);
 	FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(Hit.Normal);
 	UE_LOG(LogTemp, Warning, TEXT("Rotation: %f %f %f"), DecalRotation.Pitch, DecalRotation.Yaw, DecalRotation.Roll);
-	UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(100, 4, 4), Hit.Location, DecalRotation);
+
+
+	if (OtherActor->Implements<UTargetInterface>())
+	{
+		Cast<ITargetInterface>(OtherActor)->TargetGotHit();
+	}
+	else
+	{
+		UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(100, 4, 4), Hit.Location, DecalRotation);
+	}
 
 	if (BulletHitParticle)
 	{
@@ -55,18 +65,12 @@ void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	ProjectileStartPosition = GetActorLocation();
-	FHitResult Hit;
 
 	if (SpeedInMetresPerSecond != 0)
 	{
 		Velocity += Gravity * DeltaTime * 0.001;
-		AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)), true, &Hit);
+		AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)), true);
 	}
-	/*if (Hit.bBlockingHit)
-	{
-		UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(10, 4, 4), Hit.Location);
-		Destroy();
-	}*/
 
 	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorLocation(), FColor::Red, true);
 }
