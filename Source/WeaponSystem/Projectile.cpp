@@ -15,24 +15,25 @@ AProjectile::AProjectile()
 	Collision = CreateDefaultSubobject<UBoxComponent>(FName("Collision"));
 	RootComponent = Collision;
 	Collision->SetBoxExtent(FVector(5,5,5));
-	Collision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-	Collision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
-	Collision->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-	Collision->SetNotifyRigidBodyCollision(true);
-	Collision->SetGenerateOverlapEvents(false);
-	Collision->SetSimulatePhysics(true);
+	//Collision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+	//Collision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
+	//Collision->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	//Collision->SetNotifyRigidBodyCollision(true);
+	//Collision->SetGenerateOverlapEvents(false);
+	/*Collision->SetSimulatePhysics(true);
 	Collision->SetEnableGravity(false);
 	Collision->SetAngularDamping(0);
-	Collision->SetLinearDamping(0);
+	Collision->SetLinearDamping(0);*/
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	Collision->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	//Collision->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorForwardVector(), FColor::Cyan, true);
 	ProjectileStartPosition = GetActorLocation();
+	AddActorLocalRotation(FQuat::MakeFromEuler(FVector(0,0,90)));
 	Gravity = FVector(0, 0, GetWorld()->GetGravityZ());
 }
 
@@ -60,16 +61,55 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	Destroy();
 }
 
+void AProjectile::OnLineTraceHit(const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("LineTrace Hit"));
+	UE_LOG(LogTemp, Warning, TEXT("LineTrace Hit: %f %f %f"), Hit.Location.X, Hit.Location.Y, Hit.Location.Z);
+	FRotator DecalRotation = UKismetMathLibrary::MakeRotFromX(Hit.Normal);
+	UE_LOG(LogTemp, Warning, TEXT("LineTrace Rotation: %f %f %f"), DecalRotation.Pitch, DecalRotation.Yaw, DecalRotation.Roll);
+
+	AActor* OtherActor = Hit.GetActor();
+
+	if (OtherActor->Implements<UTargetInterface>())
+	{
+		Cast<ITargetInterface>(OtherActor)->TargetGotHit();
+	}
+	else
+	{
+		UGameplayStatics::SpawnDecalAtLocation(GetWorld(), BulletHoleMaterial, FVector(100, 4, 4), Hit.Location, DecalRotation);
+	}
+
+	if (BulletHitParticle)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), BulletHitParticle, Hit.Location);
+	}
+	Destroy();
+}
+
 // Called every frame
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	ProjectileStartPosition = GetActorLocation();
 
+	FHitResult Hit;
+
 	if (SpeedInMetresPerSecond != 0)
 	{
 		Velocity += Gravity * DeltaTime * 0.001;
-		AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)), true);
+		FVector Direction = GetActorForwardVector() * SpeedInMetresPerSecond;
+		bool ProjectileCollided = GetWorld()->LineTraceSingleByChannel(Hit, GetActorLocation(), GetActorLocation() + Direction, ECollisionChannel::ECC_Visibility);
+		if (ProjectileCollided)
+		{
+
+			DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorLocation() + Direction, FColor::Green, true);
+			OnLineTraceHit(Hit);
+		}
+		else
+		{
+			AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)), true);
+			//SetActorLocation(GetActorLocation() + Velocity);
+		}
 	}
 
 	DrawDebugLine(GetWorld(), ProjectileStartPosition, GetActorLocation(), FColor::Red, true);
@@ -78,6 +118,6 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::SetSpeedInMetresPerSecond(int SpeedInMetresPerSecondToSet)
 {
 	SpeedInMetresPerSecond = SpeedInMetresPerSecondToSet;
-	Velocity = FVector(0, SpeedInMetresPerSecond,0);
+	Velocity = FVector(SpeedInMetresPerSecond, 0,0);
 }
 
