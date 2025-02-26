@@ -15,15 +15,6 @@ AProjectile::AProjectile()
 	Collision = CreateDefaultSubobject<UBoxComponent>(FName("Collision"));
 	RootComponent = Collision;
 	Collision->SetBoxExtent(FVector(5,5,5));
-	//Collision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-	//Collision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
-	//Collision->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-	//Collision->SetNotifyRigidBodyCollision(true);
-	//Collision->SetGenerateOverlapEvents(false);
-	/*Collision->SetSimulatePhysics(true);
-	Collision->SetEnableGravity(false);
-	Collision->SetAngularDamping(0);
-	Collision->SetLinearDamping(0);*/
 }
 
 // Called when the game starts or when spawned
@@ -108,7 +99,6 @@ void AProjectile::Tick(float DeltaTime)
 		else
 		{
 			AddActorLocalTransform(FTransform(FRotator(0, 0, 0), Velocity, FVector(0, 0, 0)), true);
-			//SetActorLocation(GetActorLocation() + Velocity);
 		}
 	}
 
